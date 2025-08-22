@@ -1,12 +1,162 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Dashboard</title>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Admin Dashboard</title>
+
+  <!-- Icons -->
+  <link rel="stylesheet" href="https://unicons.iconscout.com/release/v4.0.0/css/line.css">
+
+  <!-- CSS -->
+  <link rel="stylesheet" href="dashboard.css">
+
+  <!-- Chart.js CDN -->
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 </head>
+
 <body>
-    safrsf
-    <script src="dashbaord.js"></script>
+  <!-- Sidebar -->
+  <nav>
+    <div class="logo-name">
+      <div class="logo-image">
+        <img src="logo.png" alt="Logo">
+      </div>
+      <span class="logo_name">SalaryExpenses</span>
+    </div>
+
+    <div class="menu-items">
+      <ul class="nav-links">
+        <li><a href="#"><i class="uil uil-estate"></i><span class="link-name">Dashboard</span></a></li>
+        <li><a href="#"><i class="uil uil-files-landscapes"></i><span class="link-name">Add Salary</span></a></li>
+        <li><a href="#"><i class="uil uil-chart"></i><span class="link-name">Add Expenses</span></a></li>
+        <li><a href="#"><i class="uil uil-thumbs-up"></i><span class="link-name">Report</span></a></li>
+      </ul>
+
+      <ul class="logout-mode">
+        <li><a href="#"><i class="uil uil-signout"></i><span class="link-name">Logout</span></a></li>
+        <li class="mode">
+          <a href="#"><i class="uil uil-moon"></i><span class="link-name">Dark Mode</span></a>
+          <div class="mode-toggle"><span class="switch"></span></div>
+        </li>
+      </ul>
+    </div>
+  </nav>
+
+  <!-- Dashboard Section -->
+  <section class="dashboard">
+    <!-- Top Bar -->
+    <div class="top">
+      <i class="uil uil-bars sidebar-toggle"></i>
+
+      <div class="search-box">
+        <i class="uil uil-search"></i>
+        <input type="text" placeholder="Search here...">
+      </div>
+
+      <!-- Profile Image -->
+      <div class="profile">
+        <img src="profile.jpg" alt="Profile">
+      </div>
+    </div>
+
+    <!-- Main Dashboard Content -->
+    <div class="dash-content">
+      <!-- Overview Cards -->
+      <div class="overview">
+        <div class="title">
+          <i class="uil uil-tachometer-fast-alt"></i>
+          <span class="text">Dashboard</span>
+        </div>
+
+        <div class="boxes">
+          <div class="box box1">
+            <span class="text">Available Balance</span>
+            <span class="number">₹ 50,000</span>
+          </div>
+          <div class="box box2">
+            <span class="text">Spending Balance</span>
+            <span class="number">₹ 20,000</span>
+          </div>
+          <div class="box box3">
+            <span class="text">Saved Balance</span>
+            <span class="number">₹ 30,000</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Graph Section -->
+      <div class="overview">
+        <div class="title">
+          <i class="uil uil-chart"></i>
+          <span class="text">Overview</span>
+        </div>
+
+        <!-- Toggle Buttons -->
+        <div class="toggle-buttons">
+          <button onclick="loadMonthly()">Monthly</button>
+          <button onclick="loadYearly()">Yearly</button>
+
+        </div>
+
+        <!-- Chart Box -->
+        <div class="chart-container">
+          <canvas id="myChart"></canvas>
+        </div>
+      </div>
+
+      <!-- Transactions Table -->
+      <div class="transactions">
+        <h3>Recent Transactions</h3>
+        <div class="table-container">
+          <table class="transaction-table">
+            <thead>
+              <tr>
+                <th>Date</th>
+                <th>Category</th>
+                <th>Type</th>
+                <th>Expense</th>
+                <th>Amount</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>20 Aug</td>
+                <td>Salary</td>
+                <td>Income</td>
+                <td>-</td>
+                <td class="amount-income">+ ₹50,000</td>
+              </tr>
+              <tr>
+                <td>21 Aug</td>
+                <td>Food</td>
+                <td>Expense</td>
+                <td class="expense">₹2,000</td>
+                <td class="amount-expense">- ₹2,000</td>
+              </tr>
+              <tr>
+                <td>22 Aug</td>
+                <td>Transport</td>
+                <td>Expense</td>
+                <td class="expense">₹500</td>
+                <td class="amount-expense">- ₹500</td>
+              </tr>
+              <tr>
+                <td>25 Aug</td>
+                <td>Salary</td>
+                <td>Income</td>
+                <td>-</td>
+                <td class="amount-income">+ ₹10,000</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </section>
+  <script src="dashboard.js"></script>
 </body>
+
 </html>
