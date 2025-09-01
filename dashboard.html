@@ -9,6 +9,7 @@
 
   <!-- Icons -->
   <link rel="stylesheet" href="https://unicons.iconscout.com/release/v4.0.0/css/line.css">
+  <link href="https://unpkg.com/boxicons@2.1.2/css/boxicons.min.css" rel="stylesheet" />
 
   <!-- CSS -->
   <link rel="stylesheet" href="dashboard.css">
@@ -29,10 +30,13 @@
 
     <div class="menu-items">
       <ul class="nav-links">
-        <li><a href="#"><i class="uil uil-estate"></i><span class="link-name">Dashboard</span></a></li>
-        <li><a href="#"><i class="uil uil-files-landscapes"></i><span class="link-name">Add Salary</span></a></li>
-        <li><a href="#"><i class="uil uil-chart"></i><span class="link-name">Add Expenses</span></a></li>
-        <li><a href="#"><i class="uil uil-thumbs-up"></i><span class="link-name">Report</span></a></li>
+        <li><a href="#" class="active" data-section="dashboard"><i class='bx bxs-dashboard'></i><span
+              class="link-name">Dashboard</span></a></li>
+        <li><a href="#" data-section="add-salary"><i class='bx bxs-add-to-queue'></i><span class="link-name">Add
+              Salary</span></a></li>
+        <li><a href="#" data-section="add-expenses"><i class='bx bxs-message-square-add'></i><span class="link-name">Add
+              Expenses</span></a></li>
+        <li><a href="#" data-section="report"><i class='bx bxs-report'></i><span class="link-name">Report</span></a></li>
       </ul>
 
       <ul class="logout-mode">
@@ -64,98 +68,406 @@
 
     <!-- Main Dashboard Content -->
     <div class="dash-content">
-      <!-- Overview Cards -->
-      <div class="overview">
-        <div class="title">
-          <i class="uil uil-tachometer-fast-alt"></i>
-          <span class="text">Dashboard</span>
+      <!-- Dashboard Content -->
+      <div id="dashboard" class="content-section active">
+        <!-- Overview Cards -->
+        <div class="overview">
+          <div class="title">
+            <i class="uil uil-tachometer-fast-alt"></i>
+            <span class="text">Dashboard</span>
+          </div>
+
+          <div class="boxes">
+            <div class="box box1">
+              <span class="text">Available Balance</span>
+              <span class="number">₹ 50,000</span>
+            </div>
+            <div class="box box2">
+              <span class="text">Spending Balance</span>
+              <span class="number">₹ 20,000</span>
+            </div>
+            <div class="box box3">
+              <span class="text">Saved Balance</span>
+              <span class="number">₹ 30,000</span>
+            </div>
+          </div>
         </div>
 
-        <div class="boxes">
-          <div class="box box1">
-            <span class="text">Available Balance</span>
-            <span class="number">₹ 50,000</span>
+        <!-- Graph Section -->
+        <div class="overview">
+          <div class="title">
+            <i class="uil uil-chart"></i>
+            <span class="text">Overview</span>
           </div>
-          <div class="box box2">
-            <span class="text">Spending Balance</span>
-            <span class="number">₹ 20,000</span>
+
+          <!-- Toggle Buttons -->
+          <div class="toggle-buttons">
+            <button class="active" onclick="loadMonthly()">Monthly</button>
+            <button onclick="loadYearly()">Yearly</button>
           </div>
-          <div class="box box3">
-            <span class="text">Saved Balance</span>
-            <span class="number">₹ 30,000</span>
+
+          <!-- Chart Box -->
+          <div class="chart-container">
+            <canvas id="myChart"></canvas>
+          </div>
+        </div>
+
+        <!-- Transactions Table -->
+        <div class="transactions">
+          <h3>Recent Transactions</h3>
+          <div class="table-container">
+            <table class="transaction-table">
+              <thead>
+                <tr>
+                  <th>Date</th>
+                  <th>Category</th>
+                  <th>Type</th>
+                  <th>Expense</th>
+                  <th>Amount</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>20 Aug</td>
+                  <td>Salary</td>
+                  <td>Income</td>
+                  <td>-</td>
+                  <td class="amount-income">+ ₹50,000</td>
+                </tr>
+                <tr>
+                  <td>21 Aug</td>
+                  <td>Food</td>
+                  <td>Expense</td>
+                  <td class="expense">₹2,000</td>
+                  <td class="amount-expense">- ₹2,000</td>
+                </tr>
+                <tr>
+                  <td>22 Aug</td>
+                  <td>Transport</td>
+                  <td>Expense</td>
+                  <td class="expense">₹500</td>
+                  <td class="amount-expense">- ₹500</td>
+                </tr>
+                <tr>
+                  <td>25 Aug</td>
+                  <td>Salary</td>
+                  <td>Income</td>
+                  <td>-</td>
+                  <td class="amount-income">+ ₹10,000</td>
+                </tr>
+              </tbody>
+            </table>
           </div>
         </div>
       </div>
 
-      <!-- Graph Section -->
-      <div class="overview">
-        <div class="title">
-          <i class="uil uil-chart"></i>
-          <span class="text">Overview</span>
+      <!-- Add Salary Content -->
+      <div id="add-salary" class="content-section">
+        <div class="overview">
+          <div class="title">
+            <i class='bx bxs-add-to-queue'></i>
+            <span class="text">Add Salary</span>
+          </div>
+
+          <div class="form-group">
+            <label for="salary-date">Date</label>
+            <input type="date" id="salary-date">
+          </div>
+
+          <div class="form-group">
+            <label for="salary-amount">Amount</label>
+            <input type="number" id="salary-amount" placeholder="Enter amount">
+          </div>
+
+          <div class="form-group">
+            <label for="salary-source">Source</label>
+            <input type="text" id="salary-source" placeholder="Enter source">
+          </div>
+
+          <div class="form-group">
+            <button onclick="addSalary()">Add Salary</button>
+          </div>
         </div>
 
-        <!-- Toggle Buttons -->
-        <div class="toggle-buttons">
-          <button onclick="loadMonthly()">Monthly</button>
-          <button onclick="loadYearly()">Yearly</button>
-
-        </div>
-
-        <!-- Chart Box -->
-        <div class="chart-container">
-          <canvas id="myChart"></canvas>
+        <!-- Salary History Table -->
+        <div class="transactions">
+          <h3>Salary History</h3>
+          <div class="table-container">
+            <table class="history-table">
+              <thead>
+                <tr>
+                  <th>Date</th>
+                  <th>Source</th>
+                  <th>Amount</th>
+                  <th>Actions</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>20 Aug 2023</td>
+                  <td>Monthly Salary</td>
+                  <td class="amount-income">₹50,000</td>
+                  <td class="action-buttons">
+                    <button class="edit-btn">Edit</button>
+                    <button class="delete-btn">Delete</button>
+                  </td>
+                </tr>
+                <tr>
+                  <td>15 Jul 2023</td>
+                  <td>Project Payment</td>
+                  <td class="amount-income">₹25,000</td>
+                  <td class="action-buttons">
+                    <button class="edit-btn">Edit</button>
+                    <button class="delete-btn">Delete</button>
+                  </td>
+                </tr>
+                <tr>
+                  <td>20 Jun 2023</td>
+                  <td>Monthly Salary</td>
+                  <td class="amount-income">₹50,000</td>
+                  <td class="action-buttons">
+                    <button class="edit-btn">Edit</button>
+                    <button class="delete-btn">Delete</button>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
         </div>
       </div>
 
-      <!-- Transactions Table -->
-      <div class="transactions">
-        <h3>Recent Transactions</h3>
-        <div class="table-container">
-          <table class="transaction-table">
-            <thead>
-              <tr>
-                <th>Date</th>
-                <th>Category</th>
-                <th>Type</th>
-                <th>Expense</th>
-                <th>Amount</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr>
-                <td>20 Aug</td>
-                <td>Salary</td>
-                <td>Income</td>
-                <td>-</td>
-                <td class="amount-income">+ ₹50,000</td>
-              </tr>
-              <tr>
-                <td>21 Aug</td>
-                <td>Food</td>
-                <td>Expense</td>
-                <td class="expense">₹2,000</td>
-                <td class="amount-expense">- ₹2,000</td>
-              </tr>
-              <tr>
-                <td>22 Aug</td>
-                <td>Transport</td>
-                <td>Expense</td>
-                <td class="expense">₹500</td>
-                <td class="amount-expense">- ₹500</td>
-              </tr>
-              <tr>
-                <td>25 Aug</td>
-                <td>Salary</td>
-                <td>Income</td>
-                <td>-</td>
-                <td class="amount-income">+ ₹10,000</td>
-              </tr>
-            </tbody>
+      <!-- Add Expenses Content -->
+      <div id="add-expenses" class="content-section">
+        <div class="overview">
+          <div class="title">
+            <i class='bx bxs-message-square-add'></i>
+            <span class="text">Add Expenses</span>
+          </div>
+
+          <div class="form-group">
+            <label for="expense-date">Date</label>
+            <input type="date" id="expense-date">
+          </div>
+
+          <div class="form-group">
+            <label for="expense-category">Category</label>
+            <select id="expense-category">
+              <option value="">Select Category</option>
+              <option value="food">Food</option>
+              <option value="transport">Transport</option>
+              <option value="shopping">Shopping</option>
+              <option value="bills">Bills</option>
+              <option value="entertainment">Entertainment</option>
+              <option value="other">Other</option>
+            </select>
+          </div>
+
+          <div class="form-group">
+            <label for="expense-amount">Amount</label>
+            <input type="number" id="expense-amount" placeholder="Enter amount">
+          </div>
+
+          <div class="form-group">
+            <label for="expense-description">Description</label>
+            <input type="text" id="expense-description" placeholder="Enter description">
+          </div>
+
+          <div class="form-group">
+            <button onclick="addExpense()">Add Expense</button>
+          </div>
+        </div>
+
+        <!-- Expenses History Table -->
+        <div class="transactions">
+          <h3>Expenses History</h3>
+          <div class="table-container">
+            <table class="history-table">
+              <thead>
+                <tr>
+                  <th>Date</th>
+                  <th>Category</th>
+                  <th>Description</th>
+                  <th>Amount</th>
+                  <th>Actions</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>21 Aug 2023</td>
+                  <td>Food</td>
+                  <td>Lunch at restaurant</td>
+                  <td class="amount-expense">₹2,000</td>
+                  <td class="action-buttons">
+                    <button class="edit-btn">Edit</button>
+                    <button class="delete-btn">Delete</button>
+                  </td>
+                </tr>
+                <tr>
+                  <td>22 Aug 2023</td>
+                  <td>Transport</td>
+                  <td>Fuel for vehicle</td>
+                  <td class="amount-expense">₹500</td>
+                  <td class="action-buttons">
+                    <button class="edit-btn">Edit</button>
+                    <button class="delete-btn">Delete</button>
+                  </td>
+                </tr>
+                <tr>
+                  <td>23 Aug 2023</td>
+                  <td>Shopping</td>
+                  <td>New clothes</td>
+                  <td class="amount-expense">₹5,000</td>
+                  <td class="action-buttons">
+                    <button class="edit-btn">Edit</button>
+                    <button class="delete-btn">Delete</button>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+
+     <!-- Report Content -->
+<div id="report" class="content-section">
+  <div class="container">
+      <header>
+          <h1><i class="fas fa-chart-line"></i>Reports</h1>
+      </header>
+      
+      <div class="report-controls">
+          <div class="control-row">
+              <div class="control-group">
+                  <label for="report-type">Report Type</label>
+                  <select id="report-type">
+                      <option value="monthly">Monthly Report</option>
+                      <option value="yearly">Yearly Report</option>
+                  </select>
+              </div>
+              
+              <div class="control-group" id="month-control">
+                  <label for="month-select">Select Month</label>
+                  <select id="month-select">
+                      <option value="jan">January 2023</option>
+                      <option value="feb">February 2023</option>
+                      <option value="mar">March 2023</option>
+                      <option value="apr">April 2023</option>
+                      <option value="may">May 2023</option>
+                      <option value="jun">June 2023</option>
+                      <option value="jul">July 2023</option>
+                      <option value="aug" selected>August 2023</option>
+                  </select>
+              </div>
+              
+              <div class="control-group" id="year-control">
+                  <label for="year-select">Select Year</label>
+                  <select id="year-select">
+                      <option value="2021">2021</option>
+                      <option value="2022">2022</option>
+                      <option value="2023" selected>2023</option>
+                  </select>
+              </div>
+          </div>
+
+              <div class="control-group" style="display: flex; align-items: flex-end;">
+                  <button class="btn btn-primary" id="generate-report"><i class="fas fa-sync-alt"></i> Generate Report</button>
+              </div>
+          </div>
+      </div>
+      
+      <div class="summary-cards">
+          <div class="card">
+              <h3>TOTAL INCOME</h3>
+              <div class="amount income">₹ 1,25,000</div>
+              <p>+15% from last month</p>
+          </div>
+          
+          <div class="card">
+              <h3>TOTAL EXPENSES</h3>
+              <div class="amount expense">₹ 75,000</div>
+              <p>-5% from last month</p>
+          </div>
+          
+          <div class="card">
+              <h3>TOTAL SAVINGS</h3>
+              <div class="amount savings">₹ 50,000</div>
+              <p>40% of income</p>
+          </div>
+          
+          <div class="card">
+              <h3>SAVINGS RATE</h3>
+              <div class="amount">40%</div>
+              <p>Goal: 50% by December</p>
+          </div>
+      </div>
+      
+      <div class="chart-container">
+          <h2>Income vs Expenses (August 2023)</h2>
+          <div class="chart-placeholder">
+              <i class="fas fa-chart-bar" style="font-size: 32px; margin-right: 15px;"></i>
+              Monthly Comparison Chart
+          </div>
+      </div>
+      
+      <div class="report-table-container">
+          <h2 style="margin-bottom: 15px;">Report - August 2023</h2>
+          <table class="report-table">
+              <thead>
+                  <tr>
+                      <th>Month</th>
+                      <th>Income</th>
+                      <th>Expenses</th>
+                      <th>Savings</th>
+                      <th>Savings %</th>
+                  </tr>
+              </thead>
+              <tbody>
+                  <tr>
+                      <td>August 2023</td>
+                      <td class="income">₹60,000</td>
+                      <td class="expense">₹30,000</td>
+                      <td class="savings">₹30,000</td>
+                      <td>50%</td>
+                  </tr>
+                  <tr>
+                      <td>July 2023</td>
+                      <td class="income">₹75,000</td>
+                      <td class="expense">₹25,000</td>
+                      <td class="savings">₹50,000</td>
+                      <td>67%</td>
+                  </tr>
+                  <tr>
+                      <td>June 2023</td>
+                      <td class="income">₹50,000</td>
+                      <td class="expense">₹20,000</td>
+                      <td class="savings">₹30,000</td>
+                      <td>60%</td>
+                  </tr>
+                  <tr>
+                      <td>May 2023</td>
+                      <td class="income">₹55,000</td>
+                      <td class="expense">₹35,000</td>
+                      <td class="savings">₹20,000</td>
+                      <td>36%</td>
+                  </tr>
+                  <tr>
+                      <td>April 2023</td>
+                      <td class="income">₹70,000</td>
+                      <td class="expense">₹40,000</td>
+                      <td class="savings">₹30,000</td>
+                      <td>43%</td>
+                  </tr>
+              </tbody>
           </table>
-        </div>
       </div>
-    </div>
-  </section>
+      
+      <div class="download-options">
+          <button class="download-btn" onclick="downloadPDF()">
+              <i class="fas fa-file-pdf"></i> Download PDF Report
+          </button>
+      </div>
+  </div>
+</div>
   <script src="dashboard.js"></script>
 </body>
 
