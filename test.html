@@ -1,1039 +1,187 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
 
 <head>
-  <meta charset="UTF-8">
-  <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Admin Dashboard</title>
-
-  <!-- Icons -->
-  <link rel="stylesheet" href="https://unicons.iconscout.com/release/v4.0.0/css/line.css">
-  <link href="https://unpkg.com/boxicons@2.1.2/css/boxicons.min.css" rel="stylesheet" />
-
-  <!-- CSS -->
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Sign Up</title>
   <style>
-    /* Base styles */
+    /* Reset & base */
     * {
+      box-sizing: border-box;
       margin: 0;
       padding: 0;
-      box-sizing: border-box;
-      font-family: 'Poppins', sans-serif;
-    }
-
-    :root {
-      --body-color: #e4e9f7;
-      --sidebar-color: #fff;
-      --primary-color: #695cfe;
-      --primary-color-light: #f6f5ff;
-      --toggle-color: #ddd;
-      --text-color: #707070;
-      --tran-03: all 0.2s ease;
-      --tran-04: all 0.3s ease;
-      --tran-05: all 0.4s ease;
+      font-family: Arial, sans-serif;
     }
 
     body {
+      background-color: #f1f5f9;
       min-height: 100vh;
-      background-color: var(--body-color);
-      transition: var(--tran-05);
-    }
-
-    body.dark {
-      --body-color: #18191a;
-      --sidebar-color: #242526;
-      --primary-color: #3a3b3c;
-      --primary-color-light: #3a3b3c;
-      --toggle-color: #fff;
-      --text-color: #ccc;
-    }
-
-    /* Sidebar */
-    nav {
-      position: fixed;
-      top: 0;
-      left: 0;
-      height: 100%;
-      width: 250px;
-      padding: 10px 14px;
-      background-color: var(--sidebar-color);
-      transition: var(--tran-05);
-      z-index: 100;
-    }
-
-    nav.close {
-      width: 73px;
-    }
-
-    .logo-name {
       display: flex;
       align-items: center;
-    }
-
-    .logo-image {
-      display: flex;
       justify-content: center;
-      min-width: 45px;
+      padding: 1rem;
     }
 
-    .logo-image img {
-      width: 40px;
-      object-fit: cover;
+    main {
+      width: 100%;
+      max-width: 400px;
     }
 
-    .logo_name {
-      font-size: 22px;
+    section {
+      background-color: #ffffff;
+      border-radius: 1rem;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+      padding: 2rem;
+      border: 1px solid #f1f5f9;
+    }
+
+    h1 {
+      font-size: 1.5rem;
       font-weight: 600;
-      color: var(--text-color);
-      margin-left: 14px;
-      transition: var(--tran-03);
+      color: #1e293b;
+      text-align: center;
+      margin-bottom: 0.25rem;
     }
 
-    nav.close .logo_name {
-      opacity: 0;
-      pointer-events: none;
+    p {
+      color: #64748b;
+      text-align: center;
+      margin-bottom: 1.5rem;
     }
 
-    .menu-items {
-      margin-top: 40px;
-      height: calc(100% - 90px);
-      display: flex;
-      flex-direction: column;
-      justify-content: space-between;
+    form div {
+      margin-bottom: 1rem;
     }
 
-    .nav-links li {
-      list-style: none;
-      margin-top: 10px;
-      height: 50px;
-      display: flex;
-      align-items: center;
-    }
-
-    .nav-links li a {
-      height: 100%;
-      width: 100%;
-      display: flex;
-      align-items: center;
-      text-decoration: none;
-      border-radius: 6px;
-      transition: var(--tran-03);
-    }
-
-    .nav-links li a:hover {
-      background-color: var(--primary-color);
-    }
-
-    .nav-links li a.active {
-      background-color: var(--primary-color);
-    }
-
-    .nav-links li a.active .link-name,
-    .nav-links li a.active i {
-      color: #fff;
-    }
-
-    .nav-links li a:hover .link-name,
-    .nav-links li a:hover i {
-      color: #fff;
-    }
-
-    .nav-links i {
-      min-width: 45px;
-      display: flex;
-      justify-content: center;
-      font-size: 22px;
-      color: var(--text-color);
-    }
-
-    .link-name {
-      font-size: 16px;
+    label {
+      display: block;
+      font-size: 0.875rem;
       font-weight: 500;
-      color: var(--text-color);
-      transition: var(--tran-03);
+      color: #1e293b;
+      margin-bottom: 0.5rem;
     }
 
-    .logout-mode {
-      padding-bottom: 20px;
-    }
-
-    .mode {
-      position: relative;
-      background-color: var(--primary-color-light);
-      border-radius: 6px;
-    }
-
-    .mode-toggle {
-      position: absolute;
-      top: 50%;
-      right: 10px;
-      transform: translateY(-50%);
-      height: 20px;
-      width: 40px;
-      background-color: var(--toggle-color);
-      border-radius: 25px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      cursor: pointer;
-    }
-
-    .switch {
-      position: absolute;
-      height: 16px;
-      width: 16px;
-      border-radius: 50%;
-      background-color: var(--sidebar-color);
-      left: 3px;
-      transition: var(--tran-03);
-    }
-
-    body.dark .switch {
-      left: 22px;
-    }
-
-    /* Dashboard */
-    .dashboard {
-      position: relative;
-      left: 250px;
-      width: calc(100% - 250px);
-      min-height: 100vh;
-      background-color: var(--body-color);
-      transition: var(--tran-05);
-      padding: 20px;
-    }
-
-    nav.close~.dashboard {
-      left: 73px;
-      width: calc(100% - 73px);
-    }
-
-    .top {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      padding: 10px 20px;
-      background-color: var(--sidebar-color);
-      border-radius: 10px;
-      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-    }
-
-    .sidebar-toggle {
-      font-size: 24px;
-      color: var(--text-color);
-      cursor: pointer;
-    }
-
-    .search-box {
-      display: flex;
-      align-items: center;
-      background-color: var(--primary-color-light);
-      border-radius: 6px;
-      padding: 5px 15px;
-    }
-
-    .search-box i {
-      font-size: 20px;
-      color: var(--text-color);
-    }
-
-    .search-box input {
-      height: 100%;
+    input[type="text"],
+    input[type="tel"],
+    input[type="password"] {
       width: 100%;
+      padding: 0.5rem 1rem;
+      border: 1px solid #e2e8f0;
+      border-radius: 0.75rem;
+      font-size: 1rem;
       outline: none;
-      border: none;
-      background-color: transparent;
-      color: var(--text-color);
-      padding: 8px;
-      font-size: 16px;
+      transition: 0.3s;
     }
 
-    .profile img {
-      width: 40px;
-      height: 40px;
-      object-fit: cover;
-      border-radius: 50%;
+    input[type="text"]:focus,
+    input[type="tel"]:focus,
+    input[type="password"]:focus {
+      border-color: #6366f1;
+      box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.2);
     }
 
-    .dash-content {
-      margin-top: 20px;
+    .error {
+      font-size: 0.75rem;
+      color: #f43f5e;
+      margin-top: 0.25rem;
+      display: none;
     }
 
-    .overview {
-      background-color: var(--sidebar-color);
-      border-radius: 10px;
-      padding: 20px;
-      margin-bottom: 20px;
-      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-    }
-
-    .title {
+    .flex {
       display: flex;
       align-items: center;
-      margin-bottom: 20px;
+      gap: 0.5rem;
+      margin-bottom: 1.5rem;
     }
 
-    .title i {
-      font-size: 24px;
-      color: var(--text-color);
-      margin-right: 10px;
+    .flex label a {
+      color: #6366f1;
+      text-decoration: none;
     }
 
-    .title .text {
-      font-size: 20px;
-      font-weight: 600;
-      color: var(--text-color);
+    .flex label a:hover {
+      text-decoration: underline;
     }
 
-    .boxes {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
-      gap: 20px;
-    }
-
-    .box {
-      padding: 20px;
-      border-radius: 10px;
-      background-color: var(--primary-color-light);
-      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-    }
-
-    .box1 {
-      background-color: #c8e6c9;
-    }
-
-    .box2 {
-      background-color: #ffcdd2;
-    }
-
-    .box3 {
-      background-color: #bbdefb;
-    }
-
-    .box .text {
-      font-size: 16px;
-      font-weight: 500;
-      color: var(--text-color);
-    }
-
-    .box .number {
-      font-size: 28px;
-      font-weight: 600;
-      margin-top: 10px;
-      color: var(--text-color);
-    }
-
-    .toggle-buttons {
-      display: flex;
-      gap: 10px;
-      margin-bottom: 20px;
-    }
-
-    .toggle-buttons button {
-      padding: 8px 16px;
+    button {
+      width: 100%;
+      padding: 0.5rem 1rem;
       border: none;
-      border-radius: 6px;
-      background-color: var(--primary-color-light);
-      color: var(--text-color);
+      border-radius: 0.75rem;
+      background-color: #6366f1;
+      color: #ffffff;
+      font-weight: 500;
       cursor: pointer;
-      transition: var(--tran-03);
+      font-size: 1rem;
+      transition: 0.3s;
     }
 
-    .toggle-buttons button.active {
-      background-color: var(--primary-color);
-      color: #fff;
+    button:disabled {
+      opacity: 0.6;
+      cursor: not-allowed;
     }
 
-    .chart-container {
-      width: 100%;
-      height: 300px;
-      margin-top: 20px;
+    button:hover:not(:disabled) {
+      background-color: #4f46e5;
     }
 
-    /* Transactions */
-    .transactions {
-      background-color: var(--sidebar-color);
-      border-radius: 10px;
-      padding: 20px;
-      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-    }
-
-    .transactions h3 {
-      font-size: 20px;
-      font-weight: 600;
-      color: var(--text-color);
-      margin-bottom: 20px;
-    }
-
-    .table-container {
-      overflow-x: auto;
-    }
-
-    .transaction-table {
-      width: 100%;
-      border-collapse: collapse;
-    }
-
-    .transaction-table th,
-    .transaction-table td {
-      padding: 12px 15px;
-      text-align: left;
-      border-bottom: 1px solid #ddd;
-      color: var(--text-color);
-    }
-
-    .transaction-table th {
-      background-color: var(--primary-color-light);
-      font-weight: 600;
-    }
-
-    .transaction-table tr:hover {
-      background-color: var(--primary-color-light);
-    }
-
-    .amount-income {
-      color: #4caf50;
-      font-weight: 600;
-    }
-
-    .amount-expense {
-      color: #f44336;
-      font-weight: 600;
-    }
-
-    .expense {
-      color: #f44336;
-    }
-
-    /* Content sections */
-    .content-section {
+    #form-message {
+      font-size: 0.875rem;
+      color: #22c55e;
+      margin-top: 1rem;
       display: none;
-      background-color: var(--sidebar-color);
-      border-radius: 10px;
-      padding: 20px;
-      margin-bottom: 20px;
-      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-    }
-
-    .content-section.active {
-      display: block;
-    }
-
-    .form-group {
-      margin-bottom: 20px;
-    }
-
-    .form-group label {
-      display: block;
-      margin-bottom: 8px;
-      font-weight: 500;
-      color: var(--text-color);
-    }
-
-    .form-group input,
-    .form-group select {
-      width: 100%;
-      padding: 10px;
-      border: 1px solid #ddd;
-      border-radius: 6px;
-      background-color: var(--primary-color-light);
-      color: var(--text-color);
-    }
-
-    .form-group button {
-      padding: 10px 20px;
-      background-color: var(--primary-color);
-      color: #fff;
-      border: none;
-      border-radius: 6px;
-      cursor: pointer;
-      transition: var(--tran-03);
-    }
-
-    .form-group button:hover {
-      opacity: 0.9;
-    }
-
-    .history-table {
-      width: 100%;
-      border-collapse: collapse;
-      margin-top: 20px;
-    }
-
-    .history-table th,
-    .history-table td {
-      padding: 12px 15px;
-      text-align: left;
-      border-bottom: 1px solid #ddd;
-      color: var(--text-color);
-    }
-
-    .history-table th {
-      background-color: var(--primary-color-light);
-      font-weight: 600;
-    }
-
-    .history-table tr:hover {
-      background-color: var(--primary-color-light);
-    }
-
-    .action-buttons button {
-      padding: 6px 12px;
-      margin-right: 5px;
-      border: none;
-      border-radius: 4px;
-      cursor: pointer;
-    }
-
-    .edit-btn {
-      background-color: #ffc107;
-      color: #000;
-    }
-
-    .delete-btn {
-      background-color: #f44336;
-      color: #fff;
-    }
-
-    /* Responsive */
-    @media (max-width: 1000px) {
-      nav {
-        width: 73px;
-      }
-
-      nav.close {
-        width: 250px;
-      }
-
-      nav .logo_name {
-        opacity: 0;
-        pointer-events: none;
-      }
-
-      nav.close .logo_name {
-        opacity: 1;
-        pointer-events: auto;
-      }
-
-      .dashboard {
-        left: 73px;
-        width: calc(100% - 73px);
-      }
-
-      nav.close~.dashboard {
-        left: 250px;
-        width: calc(100% - 250px);
-      }
-    }
-
-    @media (max-width: 780px) {
-      .dash-content .boxes {
-        grid-template-columns: repeat(1, 1fr);
-      }
+      text-align: center;
     }
   </style>
-
-  <!-- Chart.js CDN -->
-  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 </head>
 
 <body>
-  <!-- Sidebar -->
-  <nav>
-    <div class="logo-name">
-      <div class="logo-image">
-        <img src="logo.png" alt="Logo">
-      </div>
-      <span class="logo_name">SalaryExpenses</span>
-    </div>
 
-    <div class="menu-items">
-      <ul class="nav-links">
-        <li><a href="#" class="active" data-section="dashboard"><i class='bx bxs-dashboard'></i><span
-              class="link-name">Dashboard</span></a></li>
-        <li><a href="#" data-section="add-salary"><i class='bx bxs-add-to-queue'></i><span class="link-name">Add
-              Salary</span></a></li>
-        <li><a href="#" data-section="add-expenses"><i class='bx bxs-message-square-add'></i><span class="link-name">Add
-              Expenses</span></a></li>
-        <li><a href="#" data-section="report"><i class='bx bxs-report'></i><span class="link-name">Report</span></a></li>
-      </ul>
+  <main>
+    <section>
+      <h1>Sign Up</h1>
+      <p>Create your account.</p>
 
-      <ul class="logout-mode">
-        <li><a href="#"><i class="uil uil-signout"></i><span class="link-name">Logout</span></a></li>
-        <li class="mode">
-          <a href="#"><i class="uil uil-moon"></i><span class="link-name">Dark Mode</span></a>
-          <div class="mode-toggle"><span class="switch"></span></div>
-        </li>
-      </ul>
-    </div>
-  </nav>
+      <form id="signup-form" novalidate>
 
-  <!-- Dashboard Section -->
-  <section class="dashboard">
-    <!-- Top Bar -->
-    <div class="top">
-      <i class="uil uil-bars sidebar-toggle"></i>
-
-      <div class="search-box">
-        <i class="uil uil-search"></i>
-        <input type="text" placeholder="Search here...">
-      </div>
-
-      <!-- Profile Image -->
-      <div class="profile">
-        <img src="profile.jpg" alt="Profile">
-      </div>
-    </div>
-
-    <!-- Main Dashboard Content -->
-    <div class="dash-content">
-      <!-- Dashboard Content -->
-      <div id="dashboard" class="content-section active">
-        <!-- Overview Cards -->
-        <div class="overview">
-          <div class="title">
-            <i class="uil uil-tachometer-fast-alt"></i>
-            <span class="text">Dashboard</span>
-          </div>
-
-          <div class="boxes">
-            <div class="box box1">
-              <span class="text">Available Balance</span>
-              <span class="number">₹ 50,000</span>
-            </div>
-            <div class="box box2">
-              <span class="text">Spending Balance</span>
-              <span class="number">₹ 20,000</span>
-            </div>
-            <div class="box box3">
-              <span class="text">Saved Balance</span>
-              <span class="number">₹ 30,000</span>
-            </div>
-          </div>
+        <div>
+          <label for="name">Full Name</label>
+          <input id="name" type="text" placeholder="Enter your full name" />
+          <p id="name-error" class="error"></p>
         </div>
 
-        <!-- Graph Section -->
-        <div class="overview">
-          <div class="title">
-            <i class="uil uil-chart"></i>
-            <span class="text">Overview</span>
-          </div>
-
-          <!-- Toggle Buttons -->
-          <div class="toggle-buttons">
-            <button class="active" onclick="loadMonthly()">Monthly</button>
-            <button onclick="loadYearly()">Yearly</button>
-          </div>
-
-          <!-- Chart Box -->
-          <div class="chart-container">
-            <canvas id="myChart"></canvas>
-          </div>
+        <div>
+          <label for="mobile">Mobile number</label>
+          <input id="mobile" type="tel" inputmode="numeric" maxlength="10" placeholder="Enter 10-digit mobile" />
+          <p id="mobile-error" class="error"></p>
         </div>
 
-        <!-- Transactions Table -->
-        <div class="transactions">
-          <h3>Recent Transactions</h3>
-          <div class="table-container">
-            <table class="transaction-table">
-              <thead>
-                <tr>
-                  <th>Date</th>
-                  <th>Category</th>
-                  <th>Type</th>
-                  <th>Expense</th>
-                  <th>Amount</th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr>
-                  <td>20 Aug</td>
-                  <td>Salary</td>
-                  <td>Income</td>
-                  <td>-</td>
-                  <td class="amount-income">+ ₹50,000</td>
-                </tr>
-                <tr>
-                  <td>21 Aug</td>
-                  <td>Food</td>
-                  <td>Expense</td>
-                  <td class="expense">₹2,000</td>
-                  <td class="amount-expense">- ₹2,000</td>
-                </tr>
-                <tr>
-                  <td>22 Aug</td>
-                  <td>Transport</td>
-                  <td>Expense</td>
-                  <td class="expense">₹500</td>
-                  <td class="amount-expense">- ₹500</td>
-                </tr>
-                <tr>
-                  <td>25 Aug</td>
-                  <td>Salary</td>
-                  <td>Income</td>
-                  <td>-</td>
-                  <td class="amount-income">+ ₹10,000</td>
-                </tr>
-              </tbody>
-            </table>
-          </div>
-        </div>
-      </div>
-
-      <!-- Add Salary Content -->
-      <div id="add-salary" class="content-section">
-        <div class="overview">
-          <div class="title">
-            <i class='bx bxs-add-to-queue'></i>
-            <span class="text">Add Salary</span>
-          </div>
-
-          <div class="form-group">
-            <label for="salary-date">Date</label>
-            <input type="date" id="salary-date">
-          </div>
-
-          <div class="form-group">
-            <label for="salary-amount">Amount</label>
-            <input type="number" id="salary-amount" placeholder="Enter amount">
-          </div>
-
-          <div class="form-group">
-            <label for="salary-source">Source</label>
-            <input type="text" id="salary-source" placeholder="Enter source">
-          </div>
-
-          <div class="form-group">
-            <label for="salary-description">Description</label>
-            <input type="text" id="salary-description" placeholder="Enter description">
-          </div>
-
-          <div class="form-group">
-            <button onclick="addSalary()">Add Salary</button>
-          </div>
+        <div>
+          <label for="password">Password</label>
+          <input id="password" type="password" placeholder="Enter password" />
+          <p id="password-error" class="error"></p>
         </div>
 
-        <!-- Salary History Table -->
-        <div class="transactions">
-          <h3>Salary History</h3>
-          <div class="table-container">
-            <table class="history-table">
-              <thead>
-                <tr>
-                  <th>Date</th>
-                  <th>Source</th>
-                  <th>Description</th>
-                  <th>Amount</th>
-                  <th>Actions</th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr>
-                  <td>20 Aug 2023</td>
-                  <td>Company ABC</td>
-                  <td>Monthly Salary</td>
-                  <td class="amount-income">₹50,000</td>
-                  <td class="action-buttons">
-                    <button class="edit-btn">Edit</button>
-                    <button class="delete-btn">Delete</button>
-                  </td>
-                </tr>
-                <tr>
-                  <td>15 Jul 2023</td>
-                  <td>Freelance Work</td>
-                  <td>Project Payment</td>
-                  <td class="amount-income">₹25,000</td>
-                  <td class="action-buttons">
-                    <button class="edit-btn">Edit</button>
-                    <button class="delete-btn">Delete</button>
-                  </td>
-                </tr>
-                <tr>
-                  <td>20 Jun 2023</td>
-                  <td>Company ABC</td>
-                  <td>Monthly Salary</td>
-                  <td class="amount-income">₹50,000</td>
-                  <td class="action-buttons">
-                    <button class="edit-btn">Edit</button>
-                    <button class="delete-btn">Delete</button>
-                  </td>
-                </tr>
-              </tbody>
-            </table>
-          </div>
-        </div>
-      </div>
-
-      <!-- Add Expenses Content -->
-      <div id="add-expenses" class="content-section">
-        <div class="overview">
-          <div class="title">
-            <i class='bx bxs-message-square-add'></i>
-            <span class="text">Add Expenses</span>
-          </div>
-
-          <div class="form-group">
-            <label for="expense-date">Date</label>
-            <input type="date" id="expense-date">
-          </div>
-
-          <div class="form-group">
-            <label for="expense-category">Category</label>
-            <select id="expense-category">
-              <option value="">Select Category</option>
-              <option value="food">Food</option>
-              <option value="transport">Transport</option>
-              <option value="shopping">Shopping</option>
-              <option value="bills">Bills</option>
-              <option value="entertainment">Entertainment</option>
-              <option value="other">Other</option>
-            </select>
-          </div>
-
-          <div class="form-group">
-            <label for="expense-amount">Amount</label>
-            <input type="number" id="expense-amount" placeholder="Enter amount">
-          </div>
-
-          <div class="form-group">
-            <label for="expense-description">Description</label>
-            <input type="text" id="expense-description" placeholder="Enter description">
-          </div>
-
-          <div class="form-group">
-            <button onclick="addExpense()">Add Expense</button>
-          </div>
+        <div>
+          <label for="confirm-password">Confirm Password</label>
+          <input id="confirm-password" type="password" placeholder="Confirm your password" />
+          <p id="confirm-error" class="error"></p>
         </div>
 
-        <!-- Expenses History Table -->
-        <div class="transactions">
-          <h3>Expenses History</h3>
-          <div class="table-container">
-            <table class="history-table">
-              <thead>
-                <tr>
-                  <th>Date</th>
-                  <th>Category</th>
-                  <th>Description</th>
-                  <th>Amount</th>
-                  <th>Actions</th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr>
-                  <td>21 Aug 2023</td>
-                  <td>Food</td>
-                  <td>Lunch at restaurant</td>
-                  <td class="amount-expense">₹2,000</td>
-                  <td class="action-buttons">
-                    <button class="edit-btn">Edit</button>
-                    <button class="delete-btn">Delete</button>
-                  </td>
-                </tr>
-                <tr>
-                  <td>22 Aug 2023</td>
-                  <td>Transport</td>
-                  <td>Fuel for vehicle</td>
-                  <td class="amount-expense">₹500</td>
-                  <td class="action-buttons">
-                    <button class="edit-btn">Edit</button>
-                    <button class="delete-btn">Delete</button>
-                  </td>
-                </tr>
-                <tr>
-                  <td>23 Aug 2023</td>
-                  <td>Shopping</td>
-                  <td>New clothes</td>
-                  <td class="amount-expense">₹5,000</td>
-                  <td class="action-buttons">
-                    <button class="edit-btn">Edit</button>
-                    <button class="delete-btn">Delete</button>
-                  </td>
-                </tr>
-              </tbody>
-            </table>
-          </div>
-        </div>
-      </div>
-
-      <!-- Report Content -->
-      <div id="report" class="content-section">
-        <div class="overview">
-          <div class="title">
-            <i class='bx bxs-report'></i>
-            <span class="text">Financial Report</span>
-          </div>
-
-          <div class="toggle-buttons">
-            <button class="active">Monthly Report</button>
-            <button>Yearly Report</button>
-          </div>
-
-          <div class="boxes">
-            <div class="box box1">
-              <span class="text">Total Income</span>
-              <span class="number">₹ 1,25,000</span>
-            </div>
-            <div class="box box2">
-              <span class="text">Total Expenses</span>
-              <span class="number">₹ 75,000</span>
-            </div>
-            <div class="box box3">
-              <span class="text">Net Savings</span>
-              <span class="number">₹ 50,000</span>
-            </div>
-          </div>
+        <div class="flex">
+          <input id="terms" type="checkbox" />
+          <label for="terms">I agree to the <a href="#">Terms & Conditions</a></label>
         </div>
 
-        <!-- Report History Table -->
-        <div class="transactions">
-          <h3>Detailed Report</h3>
-          <div class="table-container">
-            <table class="history-table">
-              <thead>
-                <tr>
-                  <th>Month</th>
-                  <th>Income</th>
-                  <th>Expenses</th>
-                  <th>Savings</th>
-                  <th>Savings %</th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr>
-                  <td>August 2023</td>
-                  <td class="amount-income">₹60,000</td>
-                  <td class="amount-expense">₹30,000</td>
-                  <td class="amount-income">₹30,000</td>
-                  <td>50%</td>
-                </tr>
-                <tr>
-                  <td>July 2023</td>
-                  <td class="amount-income">₹75,000</td>
-                  <td class="amount-expense">₹25,000</td>
-                  <td class="amount-income">₹50,000</td>
-                  <td>67%</td>
-                </tr>
-                <tr>
-                  <td>June 2023</td>
-                  <td class="amount-income">₹50,000</td>
-                  <td class="amount-expense">₹20,000</td>
-                  <td class="amount-income">₹30,000</td>
-                  <td>60%</td>
-                </tr>
-              </tbody>
-            </table>
-          </div>
-        </div>
-      </div>
-    </div>
-  </section>
+        <button id="signup-btn" type="button">Sign up</button>
 
-  <script>
-    // Sidebar toggle functionality
-    const body = document.querySelector('body');
-    const sidebar = document.querySelector('nav');
-    const toggle = document.querySelector('.sidebar-toggle');
-    const modeSwitch = document.querySelector('.mode-toggle');
-    const modeText = document.querySelector('.mode-text');
+        <p id="form-message"></p>
+      </form>
+    </section>
+  </main>
 
-    toggle.addEventListener('click', () => {
-      sidebar.classList.toggle('close');
-    });
-
-    modeSwitch.addEventListener('click', () => {
-      body.classList.toggle('dark');
-    });
-
-    // Navigation between sections
-    const navLinks = document.querySelectorAll('.nav-links li a');
-    const contentSections = document.querySelectorAll('.content-section');
-
-    navLinks.forEach(link => {
-      link.addEventListener('click', function (e) {
-        e.preventDefault();
-
-        // Remove active class from all links and sections
-        navLinks.forEach(item => item.classList.remove('active'));
-        contentSections.forEach(section => section.classList.remove('active'));
-
-        // Add active class to clicked link
-        this.classList.add('active');
-
-        // Show corresponding section
-        const sectionId = this.getAttribute('data-section');
-        document.getElementById(sectionId).classList.add('active');
-      });
-    });
-
-    // Chart initialization
-    const ctx = document.getElementById('myChart').getContext('2d');
-    const myChart = new Chart(ctx, {
-      type: 'line',
-      data: {
-        labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug'],
-        datasets: [{
-          label: 'Income',
-          data: [50000, 55000, 60000, 58000, 62000, 65000, 70000, 75000],
-          backgroundColor: 'rgba(76, 175, 80, 0.2)',
-          borderColor: 'rgba(76, 175, 80, 1)',
-          borderWidth: 2,
-          tension: 0.4
-        },
-        {
-          label: 'Expenses',
-          data: [30000, 32000, 35000, 38000, 40000, 42000, 45000, 48000],
-          backgroundColor: 'rgba(244, 67, 54, 0.2)',
-          borderColor: 'rgba(244, 67, 54, 1)',
-          borderWidth: 2,
-          tension: 0.4
-        }]
-      },
-      options: {
-        responsive: true,
-        maintainAspectRatio: false,
-        scales: {
-          y: {
-            beginAtZero: true
-          }
-        }
-      }
-    });
-
-    // Load monthly and yearly data functions
-    function loadMonthly() {
-      myChart.data.labels = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug'];
-      myChart.data.datasets[0].data = [50000, 55000, 60000, 58000, 62000, 65000, 70000, 75000];
-      myChart.data.datasets[1].data = [30000, 32000, 35000, 38000, 40000, 42000, 45000, 48000];
-      myChart.update();
-
-      // Update toggle buttons active state
-      document.querySelectorAll('.toggle-buttons button').forEach(btn => btn.classList.remove('active'));
-      event.target.classList.add('active');
-    }
-
-    function loadYearly() {
-      myChart.data.labels = ['2017', '2018', '2019', '2020', '2021', '2022', '2023'];
-      myChart.data.datasets[0].data = [500000, 550000, 600000, 650000, 700000, 750000, 800000];
-      myChart.data.datasets[1].data = [300000, 320000, 350000, 380000, 400000, 420000, 450000];
-      myChart.update();
-
-      // Update toggle buttons active state
-      document.querySelectorAll('.toggle-buttons button').forEach(btn => btn.classList.remove('active'));
-      event.target.classList.add('active');
-    }
-
-    // Add salary and expense functions (placeholder)
-    function addSalary() {
-      alert('Salary added successfully!');
-      // In a real application, you would handle form data and update the table here
-    }
-
-    function addExpense() {
-      alert('Expense added successfully!');
-      // In a real application, you would handle form data and update the table here
-    }
-  </script>
+  <script src="Sign_up.js"></script>
 </body>
 
 </html>
